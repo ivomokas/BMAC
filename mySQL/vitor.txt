@@ -1,0 +1,168 @@
+>>>Lista de itens Sala de adultos
+
+SELECT *
+FROM items
+WHERE more_subfields_xml <> ''
+AND ExtractValue(more_subfields_xml, '//*/*')  REGEXP ' SA '
+
+
+>>>Lista registos: Biblioteca; codigo barras; CDU
+
+SELECT homebranch, barcode,ExtractValue(marcxml, '//datafield[@tag="675"]/subfield[@code="a"]') AS 'CDU' 
+FROM biblioitems
+join items using (biblionumber)
+
+>>extrair CDU
+
+SELECT ExtractValue(marcxml, '//datafield[@tag="675"]/subfield[@code="a"]') AS 'CDU'
+FROM biblioitems
+
+select *
+from   biblio
+join biblioitems using (biblionumber)
+join items using (biblionumber) 
+limit 100
+
+>>Lista registos: Biblioteca; codigo barras; cod.Audiência
+
+SELECT homebranch,barcode,ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') AS 'idade'
+FROM biblioitems
+join biblio using (biblionumber)
+join items using (biblionumber)
+where ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') REGEXP ' a '
+OR ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') REGEXP ' b '
+OR ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') REGEXP ' c '
+
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+Boa tarde Ivo,
+
+Veja os meus comentários entrelinhas.
+
+--
+Cumprimentos,
+Vitor Fernandes
+
+--
+Concepção & desenvolvimento
+KEEP SOLUTIONS, LDA.
+Rua Rosalvo de Almeida, nº 5
+4710-429 Braga, Portugal
+W www.keep.pt E info@keep.pt 
+T +351 253066735
+
+
+Ivo <icosta@cm-tavira.pt> escreveu no dia sexta, 13/11/2020 à(s) 17:16:
+Boas Vitor,
+
+Obrigado pelas dicas!
+
+Realmente estava a escapar-me uma boa parte da informação disponível.
+
+Fiz alguns relatórios SQL , no entanto na parte da pesquisa de CDU (campo 675$a) bem como noutros campos, não é tão linear pois toda a catalogação está “enfiada” dentro de um só valor.
+
+
+A informação está guardada em XML na coluna marcxml.
+É possível obter dados dos campos usando algumas funções do MySQL como o ExtractValue.
+ 
+
+No manual, é sugerida a recolha através do “itemcallnumber” que corresponde à cota mas, no nosso caso não corresponde CDU.
+
+
+O itemcallnumber corresponde à cota do exemplar e não à classificação do registo.
+ 
+
+Também é sugerida a utilização da tabela “metadata” que foi criada a partir da versão 17, precisamente para facilitar o acesso aos campos marc, mas na nossa versão, não dá pois essa tabela não existe.
+
+Alguma sugestão  para “sacar” a informação do campo biblioitems.marcxml?
+
+
+Nas últimas versões do Koha, a comunidade moveu o marcxml para essa tabela, para que a tabela biblioitems ficasse mais leve.
+No vosso caso têm de usar o marcxml.
+Exemplo da extração do 675$a
+
+SELECT ExtractValue(marcxml, '//datafield[@tag="675"]/subfield[@code="a"]') AS 'CDU'
+FROM biblioitems
+
+
+ 
+
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+Boa tarde,
+
+Percebo o que está a referir, e posso ajudar a esclarecer algumas dúvidas sobre os relatórios.
+No entanto, apenas referiu que precisavam dos relatórios... O que aponta mais para um pedido de resolução/criação do que para um pedido de apoio.
+
+Koha Schema - http://schema.koha-community.org/16_11/
+Koha Reports - https://wiki.koha-community.org/wiki/SQL_Reports_Library
+
+Tabelas importantes
+
+- branches - Bibliotecas
+- borrowers - Leitores
+- biblio - Registos
+- biblioitems - Registos (mais informação incluindo o XML com todos os campos/subcampos)
+- items - Exemplares
+
+- issues - Empréstimos - ativos
+- old_issues - Empréstimos - histórico
+- statistics - Empréstimos - estatísticas
+
+- action_logs - Registo de ações no Koha
+
+--
+Cumprimentos,
+Vitor Fernandes
+-----------------------------------------------------------
+-----------------------------------------------------------
+Bom Dia Vitor,
+Espero que esteja tudo bem aí por cima.
+
+Se for possível, precisávamos de alguns relatórios no Koha:
+
+a) Listar novas entradas, com selecção de data (inicio e fim do período), selecção de "biblioteca"(branch) com as colunas:
+-Biblioteca; 
+-barcode; 
+-valor do código de audiência (campo 100, $a, "código de audiência"); 
+-valor de CDU (campo 675 $a "notação CDU"; 
+-local (campo 995 $g)
+
+b) Listar Empréstimos por CDU com selecção de data (início e fim do período), e biblioteca (branch) com as colunas:
+-Biblioteca; 
+-título; 
+-barcode; 
+-CDU; 
+-data empréstimo; 
+-data de devolução;
+
+c) Listar estados do fundo documental, no campo 995 $0. Com selecção de Biblioteca (branches), e  com selecção de data de operação (inicio e fim do período) com as colunas:
+-data de operação; 
+-funcionário; 
+-biblioteca; 
+-barcode; 
+-Removido (estado) [valor do campo 995 $0]; 
+
+Com os melhores cumprimentos,
+Ivo Costa
+
+
+
+I. Tratamento documental
+1) Listar Novas entradas – monografia infantil  
+	[por código de audiência / localização(local/espaço)]
+
+a.	Registos Bibliográficos por classe CDU (ano e por mês)
+c.	Registos Bibliográficos por classe CDU, novas entradas (ano e por mês)
+d.	N.º exemplares por classe CDU (ano e por mês)
+e.	N.º exemplares por classe CDU, novas entradas (ano e por mês)
+j.	N.º exemplares por classe CDU (ano e por mês) CDU 
+m.	N.º exemplares por espaço (Sala de Adultos, Sala Infantil e Depósito) [995$g]
+
+III. Empréstimo
+d.	Número de empréstimo por CDU (ano e por mês) CDU
+
+
+III.	Eliminações de fundo documental (995 $0 – “Abatido”) 

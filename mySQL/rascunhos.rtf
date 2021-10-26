@@ -1,0 +1,1506 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;\f2\fswiss\fcharset0 Arial-BoldMT;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;\red0\green0\blue0;\red255\green255\blue255;
+\red0\green0\blue0;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;\cssrgb\c0\c1\c1;\cssrgb\c100000\c100000\c99985;
+\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c100000;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww21220\viewh25840\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 items.location ->  955$e \'93Localiza\'e7\'e3o na prateleira\'94\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+>>>>>>>junta todas as tabelas de autoridades\
+\
+SELECT *\
+FROM auth_header\
+JOIN auth_types using (authtypecode)\
+JOIN auth_subfield_structure using (authtypecode)\
+JOIN auth_tag_structure using (authtypecode)\
+\
+where date(modification_time) >= <<Data in\'edcio|date>> \
+AND date(modification_time) <= <<Data fim|date>> \
+AND authid = '30908'\
+ limit 100\
+######Nota: TEM QUE TER LIMIT\
+\
+\
+\
+\
+>>>>>>>>>Registos mexidos por Maria Jo\'e3o\
+\
+SELECT action_logs.timestamp AS 'Data', \
+case action_logs.action\
+WHEN 'ADD' THEN 'Criado'\
+WHEN 'MODIFY' THEN 'Modificado'\
+\
+ELSE action_logs.action\
+END AS 'A\'e7\'e3o',\
+action_logs.object,\
+biblio.title 'T\'edtulo',\
+biblio.author 'Autor',\
+items.barcode 'Registo'\
+\
+FROM action_logs\
+JOIN biblio ON (action_logs.object = biblio.biblionumber)\
+JOIN items ON (biblio.biblionumber=items.biblionumber)\
+\
+WHERE action_logs.user = '00077'\
+AND action_logs.module ='CATALOGUING'\
+\
+\
+\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+SELECT abatadult.homebranch 'Biblioteca', abatadult.barcode 'CodigoBarras', abatadult.title 'T\'edtulo', abatadult.itype 'TipoDocumento', abatadult.time\
+\
+FROM( SELECT biblio.timestamp AS 'time', homebranch, barcode, title, itype, more_subfields_xml, marcxml FROM items JOIN biblio using (biblionumber) JOIN biblioitems using (biblionumber)\
+WHERE more_subfields_xml <> ''\
+AND ExtractValue(more_subfields_xml, '//*/*')  REGEXP ' 9 ') AS abatadult\
+\
+WHERE ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') REGEXP ' a '\
+OR ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') REGEXP ' b '\
+OR ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') REGEXP ' c '\
+OR ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') REGEXP ' d '\
+\
+ORDER BY abatadult.barcode\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97Listagem Documentos abatidos - monografias adultos:\
+\
+\
+SELECT homebranch 'Biblioteca', barcode 'CodigoBarras', title 'T\'edtulo', itype 'TipoDocumento', biblio.timestamp 'DataOpera\'e7\'e3o'\
+FROM items\
+join biblio using (biblionumber)\
+join biblioitems using (biblionumber)\
+WHERE more_subfields_xml <> ''\
+AND ExtractValue(more_subfields_xml, '//*/*')  REGEXP ' 9 '\
+AND ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]') REGEXP ' k '\
+\
+ORDER BY barcode\
+\
+\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA:   BMAC II.m.iii N\'ba exemplares Dep\'f3sito\
+\
+\
+SELECT count(*) 'N\'famero de documentos no dep\'f3sito'\
+FROM items\
+WHERE more_subfields_xml <> ''\
+AND ExtractValue(more_subfields_xml, '//*/*')  REGEXP ' D '\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA:  BMAC II.m.ii N\'ba exemplares Sala de Infantil\
+\
+SELECT count(*) 'N\'famero de documentos na sala de infantil'\
+FROM items\
+WHERE more_subfields_xml <> ''\
+AND ExtractValue(more_subfields_xml, '//*/*')  REGEXP ' SI '\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: BMAC II.m.i N\'ba exemplares Sala de Adultos\
+\
+SELECT count(*) 'N\'famero de documentos na sala de adultos'\
+FROM items\
+WHERE more_subfields_xml <> ''\
+AND ExtractValue(more_subfields_xml, '//*/*')  REGEXP ' SA '\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMAC II.b. Novas entradas \'96 monografias infantil (ano e por m\'eas)\
+\
+\
+SELECT homebranch AS Biblioteca, \
+CASE itype \
+WHEN 'ANA' THEN 'Anal\'edticos'\
+WHEN 'MON' THEN 'Monografia'\
+WHEN 'MUL' THEN 'Multim\'e9dia'\
+WHEN 'MAL' THEN 'Monografia Audio Livro'\
+WHEN 'MLE' THEN 'Monografia Livro Escolar'\
+WHEN 'MLA' THEN 'Monografia Livro Antigo'\
+WHEN 'MEB' THEN 'Monografia EBook'\
+WHEN 'SON' THEN 'Sonoro'\
+WHEN 'PJO' THEN 'Jornais'\
+WHEN 'PRE' THEN 'Revistas'\
+\
+ELSE  itype\
+END AS  'Tipo de documento', COUNT(biblioitemnumber) AS' Numero de documentos'\
+\
+FROM items \
+JOIN action_logs \
+ON action_logs.object = items.biblioitemnumber\
+\
+WHERE  more_subfields_xml <> ''\
+AND ExtractValue(more_subfields_xml, '//*/*')  REGEXP ' SI '\
+AND action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND items.homebranch = 'BMTAV'\
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+\
+GROUP BY homebranch, itype  \
+ORDER BY homebranch, itype ASC\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV V. g. Empr\'e9stimo inter biblioteca, por emprestados e recebidos (ano e por m\'eas) \
+\
+SELECT  \
+statistics.branch 'Processado por',\
+borrowers.surname 'Biblioteca',\
+\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+WHEN 'return' THEN 'Devolu\'e7\'f5es'\
+ELSE statistics.type \
+END Movimento,\
+COUNT(*) 'Total'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+JOIN categories on (categories.categorycode = borrowers.categorycode)\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND categories.categorycode = 'INST'\
+AND statistics.type = 'issue'\
+AND LEFT(borrowers.surname, 3) = 'Bib'\
+\
+\
+GROUP BY borrowers.surname\
+ORDER BY statistics.datetime asc\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97 LISTAGEM EMPRESTIMOS Bibliotecas\
+SELECT  \
+statistics.branch 'Biblioteca',\
+borrowers.surname,\
+items.barcode,\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+WHEN 'return' THEN 'Devolu\'e7\'f5es'\
+ELSE statistics.type \
+END Movimento,\
+\
+categories.description 'Grupo'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+JOIN categories on (categories.categorycode = borrowers.categorycode)\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND categories.categorycode = 'INST'\
+AND statistics.type <> 'renew'\
+AND LEFT(borrowers.surname, 3) = 'Bib'\
+\
+ORDER BY statistics.datetime asc\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97 LISTAGEM EMPRESTIMOS INSTITUI\'c7\'d5ES\
+SELECT  \
+statistics.branch 'Biblioteca',\
+borrowers.surname,\
+items.barcode,\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+WHEN 'return' THEN 'Devolu\'e7\'f5es'\
+ELSE statistics.type \
+END Movimento,\
+\
+categories.description 'Grupo'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+JOIN categories on (categories.categorycode = borrowers.categorycode)\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND categories.categorycode = 'INST'\
+AND statistics.type <> 'renew'\
+\
+\
+ORDER BY statistics.datetime asc\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV V. e. Os 10 documentos mais emprestado por espa\'e7o (sala de adultos, Infantil e Dep\'f3sito) (ano e por m\'eas)\
+\
+SELECT  \
+statistics.branch 'Biblioteca',\
+\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+ELSE statistics.type \
+END Movimento,\
+\
+biblio.title 'T\'edtulo',\
+COUNT(*) 'Total'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)\
+JOIN biblio on (biblio.biblionumber = items.biblioitemnumber) \
+  \
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type = 'issue'\
+AND biblio.author <> ''\
+AND statistics.itemtype = 'MON'\
+\
+GROUP BY biblio.title\
+ORDER BY COUNT(*) DESC\
+ LIMIT 10\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV V. h. Leitura Presencial (ano e por m\'eas)\
+\
+\
+SELECT  \
+statistics.branch 'Biblioteca',\
+\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos Domicili\'e1rio'\
+WHEN 'localuse' THEN 'Empr\'e9stimo Local'\
+ELSE statistics.type \
+END Movimento,\
+borrowers.surname AS 'Nome',\
+COUNT(*) 'Total'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)\
+JOIN biblio on (biblio.biblionumber = items.biblioitemnumber) \
+  \
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type = 'localuse' \
+AND LEFT(items.itemcallnumber, 2) <>'WZ'\
+\
+GROUP BY borrowers.surname\
+ORDER BY COUNT(*) DESC\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV V. f. O autor mais emprestado\
+\
+\
+SELECT  \
+statistics.branch 'Biblioteca',\
+\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+ELSE statistics.type \
+END Movimento,\
+\
+biblio.author 'autor',\
+COUNT(*) 'Total'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)\
+JOIN biblio on (biblio.biblionumber = items.biblioitemnumber) \
+  \
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type = 'issue'\
+AND biblio.author <> ''\
+AND statistics.itemtype = 'MON'\
+\
+GROUP BY biblio.author\
+ORDER BY COUNT(*) DESC\
+ LIMIT 10\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV V. d.	N\'famero de empr\'e9stimo por cota (ano e por m\'eas)\
+\
+SELECT  \
+statistics.branch 'Biblioteca',\
+\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+ELSE statistics.type \
+END Movimento,\
+\
+LEFT(items.itemcallnumber, 3) 'cota',\
+COUNT(*) 'Total'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type = 'issue'\
+\
+\
+GROUP BY LEFT(items.itemcallnumber, 3)\
+ORDER BY items.itemcallnumber asc\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: BMTAV V. c. Percentagem de empr\'e9stimo por grupo (ano e por m\'eas)\
+\
+SELECT  \
+statistics.branch 'Biblioteca',\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+ELSE statistics.type \
+END Movimento,\
+categories.description 'Grupo',\
+COUNT(*) 'Total'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+JOIN categories on (categories.categorycode = borrowers.categorycode)\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type = 'issue'\
+\
+\
+\
+GROUP BY borrowers.categorycode\
+ORDER BY statistics.datetime asc\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: BMTAV V.b. Percentagem de empr\'e9stimo por sexo (ano e por m\'eas)\
+\
+SELECT  \
+statistics.branch 'Biblioteca',\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+ELSE statistics.type \
+END Movimento,\
+borrowers.sex 'Genero',\
+COUNT(*) 'Total'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type = 'issue'\
+AND borrowers.sex <>''\
+AND borrowers.sex <>'N'\
+\
+\
+GROUP BY borrowers.sex\
+ORDER BY statistics.datetime asc\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA:BMTAV V. a. N\'famero de empr\'e9stimo (ano e por m\'eas)\
+\
+SELECT  \
+statistics.branch 'Biblioteca',\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+ELSE statistics.type \
+END Movimento,\
+COUNT(*) 'Total'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type = 'issue'\
+\
+GROUP BY statistics.type\
+ORDER BY statistics.datetime asc\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97MOSTRAR S\'d3 CONTAGEM DE EMPRESTIMOS \
+\
+SELECT  \
+borrowers.cardnumber,\
+borrowers.sex,\
+borrowers.categorycode,\
+items.itemnumber,\
+statistics.itemtype,\
+items.barcode,\
+items.itemcallnumber,\
+statistics.datetime,\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+ELSE statistics.type \
+END Movimento,\
+statistics.branch \
+,COUNT(*)\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type = 'issue'\
+\
+GROUP BY statistics.type\
+ORDER BY statistics.datetime asc\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97retirar tipo \'93payment\'94; mostrar \'93issue\'94 como \'93empr\'e9stimos\'94\
+SELECT  \
+borrowers.cardnumber,\
+borrowers.sex,\
+borrowers.categorycode,\
+items.itemnumber,\
+statistics.itemtype,\
+items.barcode,\
+items.itemcallnumber,\
+statistics.datetime,\
+CASE statistics.type\
+WHEN 'issue' THEN 'Empr\'e9stimos'\
+ELSE statistics.type \
+END Movimento,\
+statistics.branch \
+,COUNT(*)\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+AND statistics.type <> 'payment'\
+\
+GROUP BY statistics.type\
+ORDER BY statistics.datetime asc\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97 contar diferentes tipos de movimentos\
+SELECT  \
+borrowers.cardnumber,\
+borrowers.sex,\
+borrowers.categorycode,\
+items.itemnumber,\
+statistics.itemtype,\
+items.barcode,\
+items.itemcallnumber,\
+statistics.datetime,\
+statistics.type,\
+statistics.branch \
+,COUNT(*)\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+\
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+\
+\
+GROUP BY statistics.type\
+ORDER BY statistics.datetime asc\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV VI. d. Utiliza\'e7\'e3o dos PC\'92s port\'e1teis (pessoais) (sala de adultos e Infantil) (ano e por m\'eas)\
+\
+SELECT  \
+\
+CONCAT(borrowers.firstname,' ',borrowers.surname) AS 'Nome', \
+biblio.title AS 'T\'edtulo', \
+date(statistics.datetime) AS 'Data',\
+COUNT(*)\
+\
+FROM borrowers\
+\
+LEFT JOIN statistics ON borrowers.borrowernumber = statistics.borrowernumber\
+LEFT JOIN items ON statistics.itemnumber = items.itemnumber\
+LEFT JOIN biblio ON items.biblionumber = biblio.biblionumber\
+LEFT JOIN itemtypes ON items.itype = itemtypes.itemtype\
+\
+WHERE  statistics.type = 'localuse'\
+AND LEFT(items.itemcallnumber, 3) = 'wz2'\
+AND date(statistics.datetime) >= <<Inicio|date>>\
+AND date(statistics.datetime) <= <<Inicio|date>>\
+\
+GROUP BY items.itemcallnumber, borrowers.cardnumber\
+ORDER BY items.itemcallnumber\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV VI. a. N\'famero de utilizadores (contador da entrada)\
+SELECT  \
+\
+CONCAT(borrowers.firstname,' ',borrowers.surname) AS 'Nome', \
+biblio.title AS 'T\'edtulo', \
+date(statistics.datetime) AS 'Data',\
+COUNT(*)\
+\
+FROM borrowers\
+\
+LEFT JOIN statistics ON borrowers.borrowernumber = statistics.borrowernumber\
+LEFT JOIN items ON statistics.itemnumber = items.itemnumber\
+LEFT JOIN biblio ON items.biblionumber = biblio.biblionumber\
+LEFT JOIN itemtypes ON items.itype = itemtypes.itemtype\
+\
+WHERE  statistics.type = 'localuse'\
+AND LEFT(items.itemcallnumber, 3) = 'wz1'\
+AND date(statistics.datetime) >= <<Inicio|date>>\
+AND date(statistics.datetime) <= <<Inicio|date>>\
+\
+GROUP BY items.itemcallnumber, borrowers.cardnumber\
+ORDER BY items.itemcallnumber\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOMHE KOHA: BMTAV IV.j. N\'famero de leitores penalizados (ano e por m\'eas)\
+\
+SELECT \
+borrowers.branchcode 'Biblioteca',\
+COUNT(*) 'Leitores Penalizados'\
+FROM borrowers\
+INNER JOIN categories\
+ON borrowers.categorycode = categories.categorycode \
+WHERE borrowers.debarred IS NOT NULL\
+AND date(borrowers.debarred)>= <<Inicio|date>>\
+AND date(borrowers.debarred)<= <<Fim|date>>\
+\
+GROUP BY borrowers.branchcode\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+SELECT g.estado, COUNT(*)\
+FROM\
+(SELECT  \
+tbl.cardnumber 'N\'famero cart\'e3o', \
+tbl.NAME Nome, \
+tbl.itemcallnumber Cota, \
+tbl.itype Tipo, \
+tbl.title 'T\'edtulo', \
+tbl.issuedate 'Data in\'edcio opera\'e7\'e3o', \
+tbl.date_due 'Data prevista fim opera\'e7\'e3o', \
+tbl.returndate 'Data fim opera\'e7\'e3o'\
+,IF(  tbl.date_due < tbl.returndate OR tbl.date_due<NOW(),'PENALIZADO', 'ok') AS 'estado'\
+\
+FROM (\
+SELECT borrowers.cardnumber, \
+CONCAT (borrowers.firstname, ' ' , borrowers.surname) NAME, \
+items.itemcallnumber, \
+items.itype, \
+biblio.title, issues.issuedate, \
+issues.date_due, \
+issues.returndate, \
+items.barcode         \
+FROM issues              \
+LEFT JOIN borrowers ON borrowers.borrowernumber = issues.borrowernumber              \
+LEFT JOIN items ON issues.itemnumber = items.itemnumber              \
+LEFT JOIN biblioitems ON items.itemnumber = biblioitems.biblioitemnumber  \
+LEFT JOIN biblio ON biblio.biblionumber = items.biblionumber \
+UNION ALL\
+SELECT borrowers.cardnumber, CONCAT (borrowers.firstname, ' ' , borrowers.surname) NAME, items.itemcallnumber, items.itype, biblio.title, old_issues.issuedate, old_issues.date_due, old_issues.returndate, items.barcode           \
+FROM old_issues              \
+LEFT JOIN borrowers ON borrowers.borrowernumber = old_issues.borrowernumber            \
+LEFT JOIN items ON old_issues.itemnumber = items.itemnumber              \
+LEFT JOIN biblioitems ON items.itemnumber = biblioitems.biblioitemnumber              \
+LEFT JOIN biblio ON biblio.biblionumber = items.biblionumber\
+) AS tbl \
+\
+WHERE DATE(tbl.issuedate)<= <<Data fim|date>> \
+GROUP BY tbl.cardnumber) AS g\
+GROUP BY g.estado\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97 V1 LISTA \
+\
+SELECT  \
+tbl.cardnumber 'N\'famero cart\'e3o', \
+tbl.NAME Nome, \
+tbl.itemcallnumber Cota, \
+tbl.itype Tipo, \
+tbl.title 'T\'edtulo', \
+tbl.issuedate 'Data in\'edcio opera\'e7\'e3o', \
+tbl.date_due 'Data prevista fim opera\'e7\'e3o', \
+tbl.returndate 'Data fim opera\'e7\'e3o'\
+,IF(  tbl.date_due < tbl.returndate OR tbl.date_due<NOW(),'PENALIZADO', 'ok')\
+\
+FROM (\
+SELECT borrowers.cardnumber, \
+CONCAT (borrowers.firstname, ' ' , borrowers.surname) NAME, \
+items.itemcallnumber, \
+items.itype, \
+biblio.title, issues.issuedate, \
+issues.date_due, \
+issues.returndate, \
+items.barcode         \
+FROM issues              \
+LEFT JOIN borrowers ON borrowers.borrowernumber = issues.borrowernumber              \
+LEFT JOIN items ON issues.itemnumber = items.itemnumber              \
+LEFT JOIN biblioitems ON items.itemnumber = biblioitems.biblioitemnumber  \
+LEFT JOIN biblio ON biblio.biblionumber = items.biblionumber \
+UNION ALL\
+SELECT borrowers.cardnumber, CONCAT (borrowers.firstname, ' ' , borrowers.surname) NAME, items.itemcallnumber, items.itype, biblio.title, old_issues.issuedate, old_issues.date_due, old_issues.returndate, items.barcode           \
+FROM old_issues              \
+LEFT JOIN borrowers ON borrowers.borrowernumber = old_issues.borrowernumber            \
+LEFT JOIN items ON old_issues.itemnumber = items.itemnumber              \
+LEFT JOIN biblioitems ON items.itemnumber = biblioitems.biblioitemnumber              \
+LEFT JOIN biblio ON biblio.biblionumber = items.biblionumber\
+) AS tbl \
+\
+WHERE DATE(tbl.issuedate)<= <<Data fim|date>> \
+ORDER BY tbl.issuedate DESC\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV IV.k.	Os 10 leitores com mais requisi\'e7\'f5es\
+SELECT  \
+tbl.cardnumber 'N\'famero cart\'e3o', \
+tbl.NAME Nome, \
+COUNT(*) AS documentos\
+\
+FROM (\
+SELECT borrowers.cardnumber, \
+CONCAT (borrowers.firstname, ' ' , borrowers.surname) NAME, \
+items.itemcallnumber, \
+items.itype, \
+biblio.title, issues.issuedate, \
+issues.date_due, \
+issues.returndate, \
+items.barcode         \
+FROM issues              \
+LEFT JOIN borrowers ON borrowers.borrowernumber = issues.borrowernumber              \
+LEFT JOIN items ON issues.itemnumber = items.itemnumber              \
+LEFT JOIN biblioitems ON items.itemnumber = biblioitems.biblioitemnumber  \
+LEFT JOIN biblio ON biblio.biblionumber = items.biblionumber \
+UNION ALL\
+SELECT borrowers.cardnumber, CONCAT (borrowers.firstname, ' ' , borrowers.surname) NAME, items.itemcallnumber, items.itype, biblio.title, old_issues.issuedate, old_issues.date_due, old_issues.returndate, items.barcode           \
+FROM old_issues              \
+LEFT JOIN borrowers ON borrowers.borrowernumber = old_issues.borrowernumber            \
+LEFT JOIN items ON old_issues.itemnumber = items.itemnumber              \
+LEFT JOIN biblioitems ON items.itemnumber = biblioitems.biblioitemnumber              \
+LEFT JOIN biblio ON biblio.biblionumber = items.biblionumber\
+) AS tbl \
+\
+WHERE \
+DATE(tbl.issuedate)<= <<Data fim|date>> \
+\
+GROUP BY tbl.cardnumber\
+ORDER BY documentos DESC\
+LIMIT 10\
+\
+\
+\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NoME KOHA: BMTAV IV.i. N\'famero de leitores em atraso (ano e por m\'eas)\
+\
+SELECT t.Estado, COUNT(*) AS 'N\'ba de Leitores'\
+FROM (SELECT  borrowers.cardnumber 'N\'famero cart\'e3o', \
+CONCAT (borrowers.firstname, ' ' , borrowers.surname) Nome, \
+items.itemcallnumber Cota, \
+items.itype Tipo, \
+biblio.title 'T\'edtulo', \
+issues.issuedate 'Data in\'edcio opera\'e7\'e3o', \
+issues.date_due 'Data prevista fim opera\'e7\'e3o', \
+IF( NOW()>issues.date_due,"Em Atraso","No Prazo") 'Estado'\
+\
+\
+FROM issues \
+LEFT JOIN items ON (issues.itemnumber=items.itemnumber) \
+LEFT JOIN biblio ON (items.biblionumber=biblio.biblionumber) \
+LEFT JOIN borrowers on (issues.borrowernumber=borrowers.borrowernumber) \
+\
+WHERE   borrowers.branchcode = <<Biblioteca|branches>> \
+\
+GROUP BY borrowers.cardnumber ASC ) AS t\
+GROUP BY t.Estado\
+\
+\
+\'97\'97\'97\'97\'97v.2 \
+SELECT t.Estado, COUNT(*)\
+FROM (SELECT  borrowers.cardnumber 'N\'famero cart\'e3o', \
+CONCAT (borrowers.firstname, ' ' , borrowers.surname) Nome, \
+items.itemcallnumber Cota, \
+items.itype Tipo, \
+biblio.title 'T\'edtulo', \
+issues.issuedate 'Data in\'edcio opera\'e7\'e3o', \
+issues.date_due 'Data prevista fim opera\'e7\'e3o', \
+IF( NOW()>issues.date_due,"Atrasado","Dentro do Prazo") 'Estado'\
+\
+\
+FROM issues \
+LEFT JOIN items ON (issues.itemnumber=items.itemnumber) \
+LEFT JOIN biblio ON (items.biblionumber=biblio.biblionumber) \
+LEFT JOIN borrowers on (issues.borrowernumber=borrowers.borrowernumber) \
+\
+WHERE   borrowers.branchcode = <<Biblioteca|branches>> \
+\
+GROUP BY borrowers.cardnumber ASC ) AS t\
+GROUP BY t.Estado\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97V,1\
+SELECT  borrowers.cardnumber 'N\'famero cart\'e3o', \
+CONCAT (borrowers.firstname, ' ' , borrowers.surname) Nome, \
+items.itemcallnumber Cota, \
+items.itype Tipo, \
+biblio.title 'T\'edtulo', \
+issues.issuedate 'Data in\'edcio opera\'e7\'e3o', \
+issues.date_due 'Data prevista fim opera\'e7\'e3o', \
+IF( NOW()>issues.date_due,"Atrasado","Dentro do Prazo") 'Estado'\
+\
+FROM issues \
+LEFT JOIN items ON (issues.itemnumber=items.itemnumber) \
+LEFT JOIN biblio ON (items.biblionumber=biblio.biblionumber) \
+LEFT JOIN borrowers on (issues.borrowernumber=borrowers.borrowernumber) \
+\
+WHERE   borrowers.branchcode = <<Biblioteca|branches>> \
+\
+ORDER BY issues.issuedate DESC\
+\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV IV. f. N\'famero de leitores por grupo et\'e1rios (ano e por m\'eas)\
+\
+\
+SELECT  \
+\
+IF( YEAR(NOW())-YEAR(dateofbirth)<= 9,"0 aos 9",  \
+IF( YEAR(NOW())-YEAR(dateofbirth)<=19,"10 aos 19",   \
+IF( YEAR(NOW())-YEAR(dateofbirth)<=29, "20 aos 29",  \
+IF( YEAR(NOW())-YEAR(dateofbirth)<=39, "30 aos 39", \
+IF( YEAR(NOW())-YEAR(dateofbirth)<=49, "40 aos 49",  \
+IF( YEAR(NOW())-YEAR(dateofbirth)<=59, "50 aos 59", \
+IF( YEAR(NOW())-YEAR(dateofbirth)<=69, "60 aos 69", \
+IF( YEAR(NOW())-YEAR(dateofbirth)<=79, "70 aos 79","80 +")))))))) AS Idade, \
+COUNT(*) AS Leitores\
+\
+FROM borrowers\
+\
+WHERE dateofbirth <> ''\
+AND branchcode = <<Biblioteca|branches>> \
+\
+GROUP BY Idade\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97[VERS\'c3O ANTERIOR - Listagem]\
+\
+\
+\
+\
+SELECT  \
+2020-YEAR(dateofbirth) AS Idade, \
+YEAR(dateofbirth) AS 'ano de nascimento', \
+IF( 2020-YEAR(dateofbirth)<= 9,"0 aos 9",  \
+IF(2020-YEAR(dateofbirth)<=19,"10 aos 19",   \
+IF( 2020-YEAR(dateofbirth)<=29, "20 aos 29",  \
+IF( 2020-YEAR(dateofbirth)<=39, "30 aos 39", \
+IF( 2020-YEAR(dateofbirth)<=49, "40 aos 49",  \
+IF( 2020-YEAR(dateofbirth)<=59, "50 aos 59", \
+IF( 2020-YEAR(dateofbirth)<=69, "60 aos 69", \
+IF( 2020-YEAR(dateofbirth)<=79, "70 aos 79","80 +")))))))) AS Grupo , \
+count(*) AS Leitores\
+\
+FROM borrowers\
+\
+WHERE dateofbirth <> ''\
+ GROUP BY Idade\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: BMTAV IV.g. N\'famero de leitores por grau acad\'e9mico \
+\
+SELECT branchcode AS Biblioteca, attribute_GE.attribute AS Habilita\'e7\'f5es,  COUNT(*) AS Leitores \
+FROM borrowers \
+LEFT JOIN borrower_attributes AS attribute_GE ON (borrowers.borrowernumber = attribute_GE.borrowernumber AND attribute_GE.code = 'GE') \
+WHERE 1\
+AND branchcode = <<Biblioteca|branches>>  \
+GROUP BY Habilita\'e7\'f5es\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: BMTAV IV.e. N\'famero de leitores por grupo\
+\
+SELECT branchcode AS Biblioteca, categorycode AS C\'f3digo,  \
+CASE categorycode\
+WHEN 'ATD' THEN 'Atividades - Docente'\
+WHEN 'DOCE' THEN 'Docente' \
+WHEN 'ESTU' THEN 'Estudante' \
+WHEN 'FUNC' THEN 'Funcion\'e1rio' \
+WHEN 'INAT' THEN 'Inativo' \
+WHEN 'INST' THEN 'Institui\'e7\'e3o' \
+WHEN 'NRES' THEN 'N\'e3o Residente' \
+WHEN 'NRJO' THEN 'Jovem (N\'e3o Residente)'\
+WHEN 'REBI' THEN 'Rede de Bibliotecas' \
+WHEN 'RESI' THEN 'Residente' \
+WHEN 'RJOV' THEN 'Jovem (Residente)' \
+WHEN 'STAT' THEN 'Estat\'edstico' \
+WHEN 'VISI' THEN 'Visitante' \
+WHEN 'VJOV' THEN 'Jovem (Visitante)'\
+ELSE categorycode\
+END AS 'Grupo', COUNT(*) AS Leitores\
+\
+FROM borrowers \
+WHERE 1 \
+AND branchcode = <<Biblioteca|branches>> \
+GROUP BY categorycode\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: BMTAV IV.d. N\'famero de leitores por nacionalidade \
+\
+SELECT branchcode AS Biblioteca, attribute_CCENAC.attribute AS Nacionalidade, \
+ COUNT(*) AS Leitores\
+FROM borrowers \
+LEFT JOIN borrower_attributes AS attribute_CCENAC ON (borrowers.borrowernumber = attribute_CCENAC.borrowernumber AND attribute_CCENAC.code = 'CCENAC') WHERE 1 \
+AND branchcode = <<Biblioteca|branches>> \
+AND  attribute_CCENAC.attribute <>''\
+GROUP BY Nacionalidade\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+NOME KOHA: BMAC IV.h. N\'famero de Leitores por freguesia\
+\
+SELECT attribute_FREG.attribute AS 'Freguesia', COUNT(*) AS 'Leitores' \
+FROM borrowers \
+LEFT JOIN borrower_attributes AS attribute_FREG ON (borrowers.borrowernumber = attribute_FREG.borrowernumber\
+AND attribute_FREG.code = 'FREG') WHERE 1\
+AND attribute_FREG.code <>''\
+AND branchcode = 'BMTAV' \
+\
+AND date(dateenrolled) >= <<Data in\'edcio|date>> \
+AND date(dateenrolled) <= <<Data fim|date>> \
+\
+GROUP BY attribute_FREG.attribute\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+Separar as cotas infantil\
+\
+SELECT homebranch AS Biblioteca, LEFT(itemcallnumber,3) AS  'Cota', barcode AS' C\'f3digo de barras' , action_logs.timestamp AS 'Data', CONCAT(borrowers.firstname,' ', borrowers.surname) AS 'Catalogador' , borrowers.cardnumber AS 'Utilizador n\'ba'\
+FROM items INNER JOIN action_logs \
+ON action_logs.object = items.biblioitemnumber \
+JOIN borrowers\
+ON action_logs.user=borrowers.borrowernumber\
+WHERE barcode <>  '' AND barcode IS NOT NULL \
+AND action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND LEFT(itemcallnumber,3) LIKE '%J%'\
+AND items.homebranch = \'91BMTAV\'92\
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+\
+ORDER BY action_logs.timestamp\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: BMAC II.a. Novas entradas \'96 monografias adultos (ano e por m\'eas)\
+REFER\'caNCIAS: {\field{\*\fldinst{HYPERLINK "https://www.w3schools.com/sql/func_mysql_case.asp"}}{\fldrslt 
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\ul \ulc2 https://www.w3schools.com/sql/func_mysql_case.asp}}\
+\
+\
+SELECT homebranch AS Biblioteca, \
+CASE itype \
+WHEN 'ANA' THEN 'Anal\'edticos'\
+WHEN 'MON' THEN 'Monografia'\
+WHEN 'MUL' THEN 'Multim\'e9dia'\
+WHEN 'MAL' THEN 'Monografia Audio Livro'\
+WHEN 'MLE' THEN 'Monografia Livro Escolar'\
+WHEN 'MEB' THEN 'Monografia EBook'\
+WHEN 'SON' THEN 'Sonoro'\
+WHEN 'PJO' THEN 'Jornais'\
+WHEN 'PRE' THEN 'Revistas'\
+\
+ELSE  itype\
+END AS  'Tipo de documento', COUNT(/*barcode substitu\'eddo pois os peri\'f3dicos n\'e3o t\'eam c\'f3digo de barras*/ \
+biblioitemnumber) \
+AS' Numero de documentos'\
+\
+FROM items \
+JOIN action_logs \
+ON action_logs.object = items.biblioitemnumber\
+\
+WHERE\
+  /* RETIRADO os peri\'f3dicos n\'e3o t\'eam c\'f3digo de barras, portanto n\'e3o \'e9 necess\'e1rio testar se est\'e1 vazio ou se \'e9 nulo\
+barcode <>  '' \
+AND barcode IS NOT NULL \
+AND \
+*/\
+action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+/* RETIRADO ficou s\'f3 para a BMTAV\
+AND items.homebranch = <<Biblioteca|branches>> */\
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+\
+GROUP BY homebranch, itype  \
+ORDER BY homebranch, itype ASC\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: III.h.	Leitura Presencial\
+SELECT  statistics.itemtype AS 'Materiais', COUNT(*) 'Consultados'\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)  \
+\
+\
+WHERE statistics.type='localuse'\
+AND statistics.itemtype <> 'STAT'\
+AND  statistics.branch=<<Biblioteca|branches>> \
+\
+GROUP BY statistics.itemtype\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: III.f. Os 10 documentos mais emprestado\
+\
+SELECT  biblio.title 'T\'edtulo', COUNT(*) AS 'N\'famero de empr\'e9stimos'\
+FROM issues \
+LEFT JOIN items ON (issues.itemnumber=items.itemnumber) \
+LEFT JOIN biblio ON (items.biblionumber=biblio.biblionumber) \
+LEFT JOIN borrowers on (issues.borrowernumber=borrowers.borrowernumber) \
+\
+WHERE \
+ issues.branchcode=<<Biblioteca|branches>> \
+GROUP BY biblio.title\
+\
+ORDER BY COUNT(*) DESC\
+\
+LIMIT 10\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\\\
+NOME KOHA: III.e.  N\'famero de empr\'e9stimo por cota (ano e por m\'eas) \
+\
+SELECT  left(items.itemcallnumber,3) 'Cota', COUNT(*) AS 'Empr\'e9stimos por Cota' \
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+WHERE \
+ statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+             AND statistics.type='issue'\
+\
+GROUP BY left(items.itemcallnumber,3) \
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: III.c. Numero de empr\'e9stimos por grupo\
+\
+SELECT  borrowers.categorycode 'Grupo', COUNT(*) AS 'Empr\'e9stimos por grupo' \
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+WHERE \
+ statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+             AND statistics.type='issue'\
+\
+GROUP BY borrowers.categorycode \
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: III.b. Percentagem de empr\'e9stimo por sexo (ano e por m\'eas)\
+NOTAS: Solu\'e7\'e3o pouco elegante mas nesta vers\'e3o \'e9 o possivel\
+		precis\'e1vamos poder usar vari\'e1veis \
+\
+SELECT   borrowers.sex 'Genero', CONCAT(\
+                                                                      ROUND(100*COUNT(*)/(SELECT COUNT(*) FROM borrowers \
+                                                                                                                LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+                                                                                                                LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+                                                                                                                LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)  \
+                                                                                                                WHERE borrowers.sex <>\
+                                                                                                                '' AND borrowers.sex IS NOT NULL\
+                                                                                                                AND borrowers.sex<>'N'\
+                                                                                                                AND statistics.branch= <<Biblioteca|branches>>\
+                                                                                                                AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+                                                                                                                AND date(statistics.datetime) <= <<Data fim|date>>\
+                                                                                                                AND statistics.type='issue'\
+                                                                                                               )\
+                                                                                      ,2)\
+                                                                     , ' % '\
+                                                                     ) AS ' Percentagem'\
+\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+WHERE borrowers.sex <>\
+'' AND borrowers.sex IS NOT NULL\
+AND borrowers.sex<>'N'\
+AND statistics.branch= <<Biblioteca|branches>>\
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>>\
+             AND statistics.type='issue' \
+\
+GROUP BY borrowers.sex \
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+NOME KOHA: III.b. Percentagem de empr\'e9stimo por sexo (ano e por m\'eas)\
+REFERENCIAS:\
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf3 \cb4 \expnd0\expndtw0\kerning0
+Percentagens em mySQL: \cf2 \cb1 \ul \ulc2  {\field{\*\fldinst{HYPERLINK "https://forums.mysql.com/read.php?10,191641,191645#msg-191645"}}{\fldrslt https://forums.mysql.com/read.php?10,191641,191645#msg-191645}}
+\f0 \cf0 \kerning1\expnd0\expndtw0 \ulnone \
+\pard\pardeftab720\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://www.youtube.com/watch?v=jLy6IZyBjss"}}{\fldrslt 
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\ul https://www.youtube.com/watch?v=jLy6IZyBjss}}
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\ul \
+\pard\pardeftab720\partightenfactor0
+
+\f0 \cf0 \kerning1\expnd0\expndtw0 \ulnone \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 STATUS: DONE mas Calcula os valores mas falta converter para percentagem\'85.\
+\
+\
+SELECT  borrowers.sex 'Genero', COUNT(*) AS 'Empr\'e9stimos por genero' \
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+WHERE borrowers.sex <>\
+'' AND borrowers.sex IS NOT NULL\
+AND borrowers.sex<>'N'\
+AND statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+             AND statistics.type='issue'\
+\
+GROUP BY borrowers.sex \
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+NOME KOHA : III.a. N\'famero de empr\'e9stimos (ano e m\'eas) \
+STATUS: DONE\
+\
+SELECT  statistics.branch 'Biblioteca', COUNT(*) AS 'N\'famero de empr\'e9stimos' \
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+             AND statistics.type = 'issue'\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+NOME KOHA: II.d. N\'famero total de leitores por grupo\
+STATUS DONE\
+\
+SELECT categories.description Grupo, COUNT(*)\
+FROM borrowers\
+INNER JOIN categories\
+ON borrowers.categorycode = categories.categorycode\
+GROUP BY categories.description\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA:II.c N\'famero Total de leitores por Sexo (ano e m\'eas)\
+STATUS DONE\
+\
+SELECT borrowers.sex 'Genero', count(*) ' '\
+FROM borrowers\
+INNER JOIN categories\
+ON borrowers.categorycode = categories.categorycode\
+WHERE borrowers.sex <>\
+'' AND borrowers.sex IS NOT NULL\
+AND borrowers.branchcode = <<Biblioteca|branches>>\
+AND date(borrowers.dateenrolled) >= <<Data inscri\'e7\'e3o de:|date>>\
+AND date(borrowers.dateenrolled) <= <<Data inscri\'e7\'e3o at\'e9:|date>> \
+\
+GROUP BY borrowers.sex\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: II.b Novos leitores (ano e m\'eas)\
+STATUS: DONE\
+\
+SELECT borrowers.branchcode 'Biblioteca', COUNT(borrowers.dateenrolled) 'N\'famero de Leitores'\
+FROM borrowers\
+INNER JOIN categories\
+ON borrowers.categorycode = categories.categorycode\
+WHERE date(borrowers.dateenrolled) >= <<Data inscri\'e7\'e3o de:|date>>\
+AND date(borrowers.dateenrolled) <= <<Data inscri\'e7\'e3o at\'e9:|date>> \
+GROUP BY borrowers.branchcode\
+ORDER BY borrowers.branchcode ASC\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: AUX Listagem Documentos (codigo de barras) data e catalogador\
+referencias: \
+{\field{\*\fldinst{HYPERLINK "https://javarevisited.blogspot.com/2012/11/how-to-join-three-tables-in-sql-query-mysql-sqlserver.html"}}{\fldrslt 
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\ul https://javarevisited.blogspot.com/2012/11/how-to-join-three-tables-in-sql-query-mysql-sqlserver.html}}\
+\pard\pardeftab720\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://www.w3schools.com/sql/func_mysql_concat.asp"}}{\fldrslt 
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\ul https://www.w3schools.com/sql/func_mysql_concat.asp}}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+descri\'e7\'e3o: Listagem: Biblioteca | Cota |codigo de barras | data | Utilizador | numero\
+\
+SELECT homebranch AS Biblioteca, LEFT(itemcallnumber,3) AS  'Cota', /*COUNT(barcode)*/ barcode AS' Numero de documentos' , action_logs.timestamp AS 'Data', CONCAT(borrowers.firstname,' ', borrowers.surname) AS 'Catalogador' , borrowers.cardnumber AS 'Utilizador n\'ba'\
+FROM items INNER JOIN action_logs \
+ON action_logs.object = items.biblioitemnumber \
+JOIN borrowers\
+ON action_logs.user=borrowers.borrowernumber\
+WHERE barcode <>  '' AND barcode IS NOT NULL \
+AND action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND items.homebranch = <<Biblioteca|branches>>\
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+\
+ORDER BY action_logs.timestamp\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+NOME KOHA: EBE I.f N\'ba de exemplares por cota (ano e m\'eas)\
+\
+Cota: items.itemcallnumber\
+refer\'eancias: {\field{\*\fldinst{HYPERLINK "https://www.w3resource.com/mysql/string-functions/mysql-left-function.php"}}{\fldrslt 
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\ul https://www.w3resource.com/mysql/string-functions/mysql-left-function.php}}
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\ul \
+
+\f0 \cf0 \kerning1\expnd0\expndtw0 \ulnone \
+SELECT homebranch AS Biblioteca, LEFT(itemcallnumber,3) AS  'Cota', COUNT(barcode) AS' Numero de documentos'\
+FROM items JOIN action_logs \
+ON action_logs.object = items.biblioitemnumber\
+WHERE barcode <>  '' AND barcode IS NOT NULL \
+AND action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND items.homebranch = <<Biblioteca|branches>>\
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+\
+GROUP BY homebranch, LEFT(itemcallnumber,3)\
+ORDER BY homebranch, itemcallnumber ASC\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+NOME KOHA: EBE I.h novas entradas por tipo de documento\
+\
+\
+SELECT homebranch AS Biblioteca, itype AS  'Tipo de documento', COUNT( barcode ) AS' Numero de documentos'\
+FROM items JOIN action_logs \
+ON action_logs.object = items.biblioitemnumber\
+WHERE barcode <>  '' AND barcode IS NOT NULL \
+AND action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND items.homebranch = <<Biblioteca|branches>>\
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+\
+GROUP BY homebranch, itype\
+ORDER BY homebranch, itype ASC\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+Tratamento documental -> \'93Registos Bibliogr\'e1ficos por classe CDU por per\'edodo de tempo (ano e por m\'eas)\
+\
+Localizar tabela com acesso \'e0 CDU \
+\
+/*SELECT\
+    CONCAT(IF(\
+        itemcallnumber REGEXP '^[^0-9]+[[:space:]][0-9]\{3\}[^0-9]+.*', \
+        LEFT(SUBSTR(itemcallnumber,LOCATE(' ',itemcallnumber)+1),2) ,\
+        LEFT(itemcallnumber,2)\
+    ),'0') AS CDU,\
+    COUNT(itemnumber) AS 'Numero de Documentos'\
+FROM items\
+WHERE\
+    itemcallnumber REGEXP'^[0-9]\{3\}[^0-9]+.*|^[0-9]\{3\}$|^[^0-9]+[[:space:]][0-9]\{3\}[^0-9]+.*|^[0-9]\{3\}$'\
+    AND IF(<<Limitar por Centro de documenta\'e7\'e3o|YES_NO>>,homebranch=<<Biblioteca|branches>>,1)\
+    AND IF(<<Tipo de documento|YES_NO>>,itype=<<Tipo|itemtypes>>,1)\
+GROUP BY CDU */\
+\
+\
+\
+SELECT * \
+FROM marc_subfield_structure\
+WHERE marc_subfield_structure.tagfield='675'\
+AND marc_subfield_structure.tagsubfield='a'\
+\
+\
+NOME KOHA: REBE I.h novas entradas por tipo de documento \
+STATUS: ERASED (mostra todos os movimentos mas n\'e3o distingue opera\'e7\'f5es)\
+\
+SELECT homebranch AS Biblioteca, itype AS  'Tipo de documento', COUNT( barcode ) AS' Numero de documentos'\
+FROM items \
+WHERE barcode <>  '' AND barcode IS NOT NULL \
+AND items.homebranch = <<Biblioteca|branches>>\
+AND date(items.timestamp) >= <<Data in\'edcio|date>> \
+AND date(items.timestamp) <= <<Data fim|date>> \
+\
+GROUP BY homebranch, itype\
+ORDER BY homebranch, itype ASC\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+Tratamento documental -> \'93novas entradas\'94 por \'93per\'edodo de tempo\'94 (ano e por m\'eas)\
+-> action_logs.object (registo adicionado) -> branch.object = group by branch name \
+NOME NO KOHA -I.a.- Novas entradas por periodo de tempo \
+STATUS: DONE\
+\
+SELECT items.homebranch AS 'Biblioteca' , COUNT(*) AS 'Novos'\
+FROM (SELECT * \
+             FROM action_logs\
+             WHERE action_logs.module = 'CATALOGUING' \
+             AND action_logs.action = 'ADD' \
+             AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+             AND date(action_logs.timestamp) <= <<Data fim|date>> \
+             AND action_logs.info = 'biblio') AS logs\
+INNER JOIN items\
+ON logs.object = items.biblionumber\
+GROUP BY items.homebranch\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97SINTAXE ALTERNATIVA\
+\
+\
+SELECT homebranch AS 'Biblioteca', count(*) AS 'Numero de Documentos'\
+FROM action_logs, items\
+WHERE action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+AND action_logs.object = items.biblionumber\
+\
+group by homebranch\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+Utiliza\'e7\'e3o salas por \'93per\'edodo de tempo\'94 (ano e por m\'eas)\
+\
+NOME NO KOHA :\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs42 \cf5 \cb6 \expnd0\expndtw0\kerning0
+Utiliza\'e7\'e3o sala Infantil por periodo de tempo\
+\pard\pardeftab720\sa126\partightenfactor0
+\cf5 Utiliza\'e7\'e3o sala Adultos por periodo de tempo\
+
+\f0\b0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 STATUS: DONE\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+SELECT  items.barcode AS 'C\'f3digo do Movimento', biblio.title AS 'Tipo de Movimento', COUNT(items.barcode) AS 'Utiliza\'e7\'f5es'\
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)\
+LEFT JOIN biblio on (items.biblionumber=biblio.biblionumber)   \
+WHERE statistics.branch='BMTAV' \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>>\
+AND statistics.itemtype = 'STAT' \
+AND borrowers.cardnumber='0007'\
+GROUP BY items.barcode\
+ORDER BY items.barcode\
+\
+\
+TABELA AUXILIAR: Liga\'e7\'e3o de titulo ao c\'f3digo de barras\
+\
+SELECT items.itype, items.barcode, biblio.title\
+FROM items JOIN biblio\
+ON items.biblionumber=biblio.biblionumber\
+WHERE items.itype='STAT'\
+ORDER BY items.barcode asc\
+\
+\
+\
+\
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\
+\
+SELECT  borrowers.cardnumber'N\'baCart\'e3o',\
+borrowers.dateenrolled'Data Inscri\'e7\'e3o',\
+borrowers.categorycode'Grupo',\
+borrowers.sex'Genero',\
+borrowers.dateofbirth'data nascimento',\
+borrowers.branchcode'Biblioteca'\
+ FROM borrowers \
+\
+\
+SELECT CONCAT('<a href=\\"/cgi-bin/koha/members/moremember.pl?branchcode=',action_logs.user,'\\">',action_logs.user,'</a>') AS 'Biblioteca', count(*) AS 'Registos criados'\
+FROM action_logs\
+WHERE action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+GROUP BY action_logs.user\
+\
+\
+SELECT CONCAT('<a href=\\"/cgi-bin/koha/members/moremember.pl?borrowernumber=',action_logs.user,'\\">',action_logs.user,'</a>') AS 'N\'famero de utilizador', count(*) AS 'Registos criados'\
+FROM action_logs\
+WHERE action_logs.module = 'CATALOGUING' AND action_logs.action = 'ADD' AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> AND date(action_logs.timestamp) <= <<Data fim|date>> AND action_logs.info = 'biblio'\
+GROUP BY action_logs.user\
+\
+\
+\
++++++++++++++++++++++++++++++++++++++++++++++++\
+/*Registos criados por catalogador*/\
+\
+SELECT CONCAT('<a href=\\"/cgi-bin/koha/members/moremember.pl?borrowernumber=',action_logs.user,'\\">',action_logs.user,'</a>') AS 'N\'famero de utilizador', count(*) AS 'Registos criados'\
+\
+FROM action_logs        \{action_id, timestamp, user, module (CATALOGUING), action (DELETED; ADDED; MODIFY), object, info, interface ()\}\
+\
+WHERE action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+\
+GROUP BY action_logs.user\
+\
++++++++++++++++++++++++++++++++++++++++++++++++\
+\
+/*identifica o HOMEBRANCH dos OBJECT  adicionados atrav\'e9s do modulo de cataloga\'e7\'e3o*/\
+\
+\
+SELECT module, action, object , biblionumber, homebranch\
+from action_logs, items\
+WHERE action_logs.module = 'CATALOGUING' \
+AND action_logs.action = 'ADD' \
+AND date(action_logs.timestamp) >= <<Data in\'edcio|date>> \
+AND date(action_logs.timestamp) <= <<Data fim|date>> \
+AND action_logs.info = 'biblio'\
+AND action_logs.object = items.biblionumber\
+\
+\
++++++++++++++++++++++++++++++++++++++++++++++++\
+\
+\
+NOME KOHA: Lista Movimentos por periodo de tempo e Biblioteca\
+descri\'e7\'e3o KOHA: TTotal movimentos seleccionando a biblioteca e periodo de tempo\
+\
+SELECT  borrowers.cardnumber,borrowers.sex,borrowers.categorycode,items.itemnumber,statistics.itemtype,items.barcode,items.itemcallnumber,statistics.datetime,statistics.type,statistics.branch \
+FROM borrowers \
+LEFT JOIN statistics on (statistics.borrowernumber=borrowers.borrowernumber) \
+LEFT JOIN items on (items.itemnumber = statistics.itemnumber) \
+LEFT JOIN biblioitems on (biblioitems.biblioitemnumber = items.biblioitemnumber)   \
+WHERE statistics.branch=<<Biblioteca|branches>> \
+             AND date(statistics.datetime) >= <<Data in\'edcio|date>> \
+             AND date(statistics.datetime) <= <<Data fim|date>> \
+ORDER BY statistics.datetime asc\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}

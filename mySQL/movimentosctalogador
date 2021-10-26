@@ -1,0 +1,50 @@
+
+>>Registos criados por catalogador
+
+SELECT CONCAT('<a href=\"/cgi-bin/koha/members/moremember.pl?borrowernumber=',action_logs.user,'\">',action_logs.user,'</a>') AS 'Número de utilizador', count(*) AS 'Registos criados'
+FROM action_logs
+WHERE action_logs.module = 'CATALOGUING' AND action_logs.action = 'ADD' AND date(action_logs.timestamp) >= <<Data início|date>> AND date(action_logs.timestamp) <= <<Data fim|date>> AND action_logs.info = 'biblio'
+GROUP BY action_logs.user
+
+>>>Registos modificados por catalogador
+
+SELECT CONCAT('<a href=\"/cgi-bin/koha/members/moremember.pl?borrowernumber=',action_logs.user,'\">',action_logs.user,'</a>') AS 'Número de utilizador', count(*) AS 'Registos modificados'
+FROM action_logs
+WHERE action_logs.module = 'CATALOGUING' AND action_logs.action = 'MODIFY' AND date(action_logs.timestamp) >= <<Data início|date>> AND date(action_logs.timestamp) <= <<Data fim|date>> AND action_logs.info LIKE '%biblio BEFORE%'
+GROUP BY action_logs.user
+
+
+>>>Contagem de exemplares criados por catalogador num determinado período de tempo
+
+SELECT CONCAT('<a href=\"/cgi-bin/koha/members/moremember.pl?borrowernumber=',action_logs.user,'\">',action_logs.user,'</a>') AS 'Número de utilizador', count(*) AS 'Exemplares criados'
+FROM action_logs
+WHERE action_logs.module = 'CATALOGUING' AND action_logs.action = 'ADD' AND date(action_logs.timestamp) >= <<Data início|date>> AND date(action_logs.timestamp) <= <<Data fim|date>> AND action_logs.info = 'item' 
+GROUP BY action_logs.user
+
+>>>Contagem de exemplares modificados por catalogador num determinado período de tempo
+
+SELECT CONCAT('<a href=\"/cgi-bin/koha/members/moremember.pl?borrowernumber=',action_logs.user,'\">',action_logs.user,'</a>') AS 'Número de utilizador', count(*) AS 'Exemplares modificados'
+FROM action_logs
+WHERE action_logs.module = 'CATALOGUING' AND action_logs.action = 'MODIFY' AND date(action_logs.timestamp) >= <<Data início|date>> AND date(action_logs.timestamp) <= <<Data fim|date>> AND action_logs.info LIKE 'item %'
+GROUP BY action_logs.user
+
+
+
+>>>>>>>
+action_logs.timestamp AS 'Data', 
+case action_logs.action
+WHEN 'ADD' THEN 'Criado'
+WHEN 'MODIFY' THEN 'Modificado'
+WHEN 'DELETE' THEN 'Eliminado'
+ELSE action_logs.action
+END AS 'Ação',
+action_logs.object
+
+___
+
+SELECT  timestamp, module, action, object
+
+FROM action_logs
+
+WHERE action_logs.user = '00077'
+AND action_logs.module ='CATALOGUING'
