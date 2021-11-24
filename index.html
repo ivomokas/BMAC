@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Estatísticas BMAC</title>  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    
+    <link rel="shortcut icon" href="/opac-tmpl/bootstrap/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="https://koha/opac-tmpl/bootstrap/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://koha/opac-tmpl/bootstrap/lib/jquery/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="https://koha/opac-tmpl/bootstrap/css/keeps/frontoffice.css" />
+    <link rel="stylesheet" type="text/css" media="print" href="https://koha/opac-tmpl/bootstrap/css/print.css" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="header">
+    <div class="logos"> 
+        <div class="logo1">
+            <a href="/">
+                <img src="https://koha/opac-tmpl/bootstrap/images/keeps/header/logo-alvaro-campos.png" alt="Biblioteca Munincipal Álvaro de Campos">
+                <span class="wcag">logo Biblioteca Munincipal Álvaro de Campos</span>
+            </a>
+        </div>
+        <div class="logo2">
+            <img src="https://koha/opac-tmpl/bootstrap/images/keeps/header/logo-m-tavira.png" alt="Município Tavira">
+            <span class="wcag">logo Município Tavira</span>
+      </div>
+    </div> </div>
+
+<!------------>
+
+      <header>
+        <h1>Relatório estatístico Mensal - Recolha de Dados</h1>
+        <hr>  
+        
+      </header>
+  <div class="container">
+        <form >
+          <label for="data_1">Data Inicio:</label>
+          <input type="date" id="data_1" value="2021-10-01">
+
+          <label for="data_2">Data Final:</label>
+          <input type="date" id="data_2" value="2021-12-01">
+          <br>
+       <button  onclick="report();" > Confirmar </button> 
+        </form> 
+<div id="aqui">  </div>
+         
+          </div>
+      
+
+      <footer>
+      <script src="scripts.js"></script>
+      </footer> 
+</body>
+</html>
