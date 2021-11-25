@@ -180,5 +180,5 @@ var apresentar = [];
    
          rel_condition ? apresentar.push(rel_with_date) : apresentar.push(rel_no_date);
           }
-  document.getElementById("lista").innerHTML = apresentar;
+  document.getElementById("lista").innerHTML = apresentar.join(' ');
   }
