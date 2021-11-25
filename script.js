@@ -165,8 +165,9 @@ adiciona esse intervalo aos parametros
 function report(){
 const d1 = document.getElementById("data_1").value;
 const d2 = document.getElementById("data_2").value;
-  document.write('<h2 style="font-family: sans-serif; text-align:center;">'+"Relatórios Estatísticos de "+d1+" a "+d2+'</h2>');
-/*document.getElementById("aqui").innerHTML = ('<h2 style="font-family: sans-serif; text-align:center;">'+"Relatórios Estatísticos de "+d1+" a "+d2+'</h2>');  */
+ var apresentar = [];
+
+  document.getElementById("aqui").innerHTML = ('<h2 style="font-family: sans-serif; text-align:center;">'+"Relatórios Estatísticos de "+d1+" a "+d2+'</h2>'); 
   
   for(pos_arr = 0 ; pos_arr < relatorios.length ; pos_arr++){
     var inter = "&sql_params=" + d1 + "&sql_params="+ d2;
@@ -176,8 +177,7 @@ const d2 = document.getElementById("data_2").value;
    let rel_with_date = ('<p style="font-family: sans-serif; text-align:center;">'+relatorios[pos_arr].num+' '+'<a href=' + url_x + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
    let rel_no_date = ('<p style="font-family: sans-serif; text-align:center;">'+relatorios[pos_arr].num+' '+'<a href=' + relatorios[pos_arr].loc + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
    
-         rel_condition ? document.write(rel_with_date) : document.write(rel_no_date);
-    /*rel_condition ? document.getElementById("aqui").innerHTML = rel_with_date : document.getElementById("aqui").innerHTML = rel_no_date;*/
-    
+         rel_condition ? apresentar.push(rel_with_date) : apresentar.push(rel_no_date);
     }
+  document.getElementById("lista").innerHTML = apresentar;
   }
