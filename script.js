@@ -177,7 +177,7 @@ document.getElementById("aqui").innerHTML = ('<h2 style="font-family: sans-serif
    let rel_no_date = ('<p style="font-family: sans-serif; text-align:center;">'+relatorios[pos_arr].num+' '+'<a href=' + relatorios[pos_arr].loc + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
    
       /*   rel_condition ? document.write(rel_with_date) : document.write(rel_no_date);*/
-    rel_condition ? document.getElementById("aqui").innerHTML = rel_with_date : document.getElementById("aqui").innerHTML = rel_no_date;
+    /*rel_condition ? document.getElementById("aqui").innerHTML = rel_with_date : document.getElementById("aqui").innerHTML = rel_no_date;*/
     
     }
   }
