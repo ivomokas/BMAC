@@ -19,7 +19,8 @@
   }
  
   h1{
-    margin:10% 0 0 20%;
+   /* margin:10% 0 0 20%;*/
+      text-align:center;
   }
   ul{
     list-style:none;
