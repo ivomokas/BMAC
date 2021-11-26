@@ -175,10 +175,29 @@ var apresentar = [];
         url_x = url_x.concat(inter); //novo url contendo os parametros de data para os relatórios dependentes do intervalo de tempo
     
     let rel_condition = relatorios[pos_arr].date_dep==1;
-    let rel_with_date = ('<p ">'+relatorios[pos_arr].num+' '+'<a href=' + url_x + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
-    let rel_no_date = ('<p ">'+relatorios[pos_arr].num+' '+'<a href=' + relatorios[pos_arr].loc + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
+    let rel_with_date = ('<li ">'+relatorios[pos_arr].num+' '+'<a href=' + url_x + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</li>');
+    let rel_no_date = ('<li ">'+relatorios[pos_arr].num+' '+'<a href=' + relatorios[pos_arr].loc + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</li>');
    
          rel_condition ? apresentar.push(rel_with_date) : apresentar.push(rel_no_date);
           }
-  document.getElementById("lista").innerHTML = apresentar.join(' ');
+  document.getElementById("lista").innerHTML ='<ul> id="report_list"' + apresentar.join(' ') + '<ul>';
   }
+
+function procurar() {
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById("search");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("report_list");
+  li = ul.getElementsByTagName("li");
+  
+  for (i=0; i<li.length; i++){
+      a = li[i].getElementsByTagName("a")[0];
+      txtValue = a.textContent || a.innerText;
+      
+      if (txtValue.toUpperCase().indexOf(filter)>-1){
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+  }
+}
