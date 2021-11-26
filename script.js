@@ -167,7 +167,7 @@ const d1 = document.getElementById("data_1").value;
 const d2 = document.getElementById("data_2").value;
 var apresentar = [];
 
- document.getElementById("aqui").innerHTML = ('<h2 style="font-family: sans-serif; text-align:center;">'+"Relatórios Estatísticos de "+d1+" a "+d2+'</h2>'); 
+ document.getElementById("aqui").innerHTML = ('<h2 ">'+"Relatórios Estatísticos de "+d1+" a "+d2+'</h2>'); 
   
   for(pos_arr = 0 ; pos_arr < relatorios.length ; pos_arr++){
     var inter = "&sql_params=" + d1 + "&sql_params="+ d2;
@@ -175,8 +175,8 @@ var apresentar = [];
         url_x = url_x.concat(inter); //novo url contendo os parametros de data para os relatórios dependentes do intervalo de tempo
     
     let rel_condition = relatorios[pos_arr].date_dep==1;
-    let rel_with_date = ('<p style="font-family: sans-serif; ">'+relatorios[pos_arr].num+' '+'<a href=' + url_x + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
-    let rel_no_date = ('<p style="font-family: sans-serif; ">'+relatorios[pos_arr].num+' '+'<a href=' + relatorios[pos_arr].loc + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
+    let rel_with_date = ('<p ">'+relatorios[pos_arr].num+' '+'<a href=' + url_x + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
+    let rel_no_date = ('<p ">'+relatorios[pos_arr].num+' '+'<a href=' + relatorios[pos_arr].loc + ' target=\"blank\">'+ relatorios[pos_arr].nome +'</a>' +'</p>');
    
          rel_condition ? apresentar.push(rel_with_date) : apresentar.push(rel_no_date);
           }
