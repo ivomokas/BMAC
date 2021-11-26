@@ -180,7 +180,7 @@ var apresentar = [];
    
          rel_condition ? apresentar.push(rel_with_date) : apresentar.push(rel_no_date);
           }
-  document.getElementById("lista").innerHTML ='<ul> id="report_list"' + apresentar.join(' ') + '<ul>';
+  document.getElementById("lista").innerHTML ='<ul id="report_list">' + apresentar.join(' ') + '<ul>';
   }
 
 function procurar() {
