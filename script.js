@@ -121,7 +121,7 @@ const relatorios = [
   date_dep:1},
      {num: "VI.c", 
   loc: "http://lkms/administration/history/statistics",
-  nome: "Utilização dos computadores (sada de adultos e infantil)"},
+  nome: "Utilização dos computadores (sala de adultos e infantil)"},
    {num: "VI.d", 
   loc: "https://koha:8443/cgi-bin/koha/reports/guided_reports.pl?reports=136&phase=Run%20this%20report",
   nome: "Utilização de PCs portáteis (computadores pessoais) Sala de adultos e infantil",
