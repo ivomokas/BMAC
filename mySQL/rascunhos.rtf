@@ -8,6 +8,91 @@
 \paperw11900\paperh16840\margl1440\margr1440\vieww21220\viewh25840\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
+
+select 
+LEFT(ExtractValue(marcxml, '//datafield[@tag="675"]/subfield[@code="a"]'),3) AS 'CDU',
+LEFT(ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]'),4) AS 'data',
+barcode as 'Codigo de Barras', homebranch 'Biblioteca', title as 'Título', 
+
+CASE itemtype 
+WHEN 'ANA' THEN 'Analicos'
+WHEN 'MON' THEN 'Monografia'
+WHEN 'MUL' THEN 'Multimedia'
+WHEN 'MAL' THEN 'Monografia Audio Livro'
+WHEN 'MLE' THEN 'Monografia Livro Escolar'
+WHEN 'MEB' THEN 'Monografia EBook'
+WHEN 'SON' THEN 'Sonoro'
+WHEN 'PJO' THEN 'Jornais'
+WHEN 'PRE' THEN 'Revistas'
+
+ELSE  itemtype
+END AS  'Tipo de documento',
+
+itemcallnumber 'Cota'
+
+from biblio
+JOIN action_logs ON action_logs.object = biblionumber
+JOIN biblioitems USING (biblionumber) 
+JOIN items USING(biblioitemnumber)
+WHERE module ='CATALOGUING'
+AND action = 'ADD'
+AND items.homebranch=<<Biblioteca|branches>>
+AND date(action_logs.timestamp) >= <<Data início|date>> 
+AND date(action_logs.timestamp) <= <<Data fim|date>> 
+
+
+ORDER BY data
+
+
+«««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««
+
+
+
+
+select 
+homebranch 'Biblioteca', 
+LEFT(ExtractValue(marcxml, '//datafield[@tag="100"]/subfield[@code="a"]'),4) AS 'data',
+title as 'Título', 
+barcode as 'Codigo de Barras', 
+LEFT(ExtractValue(marcxml, '//datafield[@tag="675"]/subfield[@code="a"]'),3) AS 'CDU',
+itemcallnumber 'Cota',
+CASE itemtype 
+WHEN 'ANA' THEN 'Analicos'
+WHEN 'MON' THEN 'Monografia'
+WHEN 'MUL' THEN 'Multimedia'
+WHEN 'MAL' THEN 'Monografia Audio Livro'
+WHEN 'MLE' THEN 'Monografia Livro Escolar'
+WHEN 'MEB' THEN 'Monografia EBook'
+WHEN 'SON' THEN 'Sonoro'
+WHEN 'PJO' THEN 'Jornais'
+WHEN 'PRE' THEN 'Revistas'
+ELSE  itemtype
+END AS  'Tipo de documento'
+
+
+
+from items
+JOIN action_logs ON action_logs.object = biblionumber
+JOIN biblio USING (biblionumber) 
+JOIN biblioitems USING(biblioitemnumber)
+WHERE module ='CATALOGUING'
+AND action = 'ADD'
+AND items.homebranch=<<Biblioteca|branches>>
+
+
+
+ORDER BY data
+
+
+
+
+
+
+
+
+
+
+
 \f0\fs24 \cf0 items.location ->  955$e \'93Localiza\'e7\'e3o na prateleira\'94\
 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
 >>>>>>>junta todas as tabelas de autoridades\
